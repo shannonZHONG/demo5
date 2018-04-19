@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+    <header></header>
+    <main>
+
+        <div class="wrapper " id="main">
+
+
+        </div>
+    </main>
+    <footer></footer>
+    <script>
+        var keys = {
+            '0': {
+                0: 'q',
+                1: 'w',
+                2: 'e',
+                3: 'r',
+                4: 't',
+                5: 'y',
+                6: 'u',
+                7: 'i',
+                8: 'o',
+                9: 'p',
+                length: 10
+            },
+            '1': {
+                0: 'a',
+                1: 's',
+                2: 'd',
+                3: 'f',
+                4: 'g',
+                5: 'h',
+                6: 'j',
+                7: 'k',
+                8: 'l',
+                length: 9
+            },
+            '2': {
+                0: 'z',
+                1: 'x',
+                2: 'c',
+                3: 'v',
+                4: 'b',
+                5: 'n',
+                6: 'm',
+                length: 7
+            },
+            'length': 3
+        }
+        var hash = {
+            'q': 'qq.com',
+            'w': 'weibo.com',
+            'e': 'ele.me',
+            'r': 'renren.com',
+            't': 'tianya.com',
+            'y': 'youtube.com',
+            'u': 'uc.com',
+            'i': 'iqiyi.com',
+            'o': 'opera.com',
+            'p': undefined,
+            'a': 'acfun.tv',
+            's': 'sohu.com',
+            'z': 'zhihu.com',
+            'm': 'www.mcdonalds.com.cn'
+        }
+
+        var hashInLocalStoage = JSON.parse(localStorage.getItem('zzz') || 'null')
+        if (hashInLocalStoage) {
+            hash = hashInLocalStoage;
+        }
+
+        var index = 0;
+        while (index < keys.length) {
+            div = document.createElement('div');
+            div.className = "row";
+            main.appendChild(div);
+
+            row = keys[index];
+            //取到第0个数组 第1个数组 第2个数组 
+            console.log(row);
+            //verify 是不是取到第0 1 2 个数组 
+
+            var index2 = 0;
+            while (index2 < row.length) {
+                // loop condition: 是要取到每一个第0 1 2 三个数组中的每一个字母 所以 先要确定拿到每一个数组的到底有多少个字母 所以用row.length 
+                kbd = document.createElement('kbd');
+                span = document.createElement('span');
+                span.textContent = row[index2];
+                span.className = "text";
+                kbd.appendChild(span);
+
+
+                kbd.className = "key";
+                //console.log(kbd.textContent);
+                // 取到 每一个数字所对应的字母 
+
+                button = document.createElement('button');
+                button.textContent = "编辑";
+                button.id = row[index];
+
+                img = document.createElement('img');
+                if (hash[row[index2]]) {
+                    img.src = "http://" + hash[row[index2]] + "/favicon.ico"
+                } else {
+                    img.src = "http://i.loli.net/2017/11/10/5a05afbc5e183.png"
+                }
+
+                img.onerror = function(xxx) {
+                    xxx.target.src = "http://i.loli.net/2017/11/10/5a05afbc5e183.png";
+                }
+
+                button.onclick = function(dianji) {
+                    // target 用户点的是什么 taregt 就是什么 
+                    //然后再用 id 提取出
+                    var button2 = dianji['target'];
+                    var img2 = button2.previousSibling;
+                    var key = button2.id;
+                    var x = prompt("给我一个网址");
+                    hash[key] = x;
+                    img2.src = "http://" + x + "/favicon.ico"
+                    img.onerror = function(xxx) {
+                        xxx.target.src = "http://i.loli.net/2017/11/10/5a05afbc5e183.png";
+                    }
+                    // 变更 刷新 之后 就覆盖   
+                    // 只能存字符串 setItem这个API
+                    localStorage.setItem('zzz', JSON.stringify(hash));
+                    console.log(hash);
+
+
+                }
+                kbd.appendChild(img);
+                kbd.appendChild(button);
+                div.appendChild(kbd);
+
+                index2 = index2 + 1;
+
+            }
+            index = index + 1;
+        }
+
+        document.onkeypress = function(dianjitest) {
+       
+            var  key = dianjitest['key']; // q w e 
+            //console.log(key);
+            var website;
+            website = hash[key]; // 直接用字母去拿到网址 
+            console.log(website);
+            window.open("http://" + website, '_blank');
+
+
+
+
+        }
+
+    </script>
+</body>
+
+</html>
